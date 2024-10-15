@@ -21,6 +21,7 @@ email: nandu.workmail@gmail.com
 
 import cv2
 import numpy as np
+import gc
 
 from frame import Frame
 from shapes import Point, Shape, Circle, Rectangle, Triangle
@@ -28,33 +29,62 @@ from shapes import Point, Shape, Circle, Rectangle, Triangle
 
 def main():
     main_frame = Frame(800, 600)
-    rectangle = Rectangle(Point(400, 300), 100, 200)
+    rectangle = Rectangle(Point(400, 300), 100, 200,main_frame)
     rectangle.set_colour((0, 255, 0))
-    rectangle.draw(main_frame())
-    main_frame.show()
+
+
     #update rectangle
-    # rectangle.update(Point(200, 200), 50, 100, 45)
+    rectangle.update(Point(200, 200), 50, 100, 45)
     #check if point is in rectangle
     point = Point(10, 20)
-    print(rectangle.contains(point))
-    rectangle.draw(main_frame())
-
-    #draw circle
-    circle = Circle(Point(400, 300), 50)
-    circle.set_colour((0, 0, 255))
-    circle.draw(main_frame())
-    #check if circle intersects with rectangle
-    print(rectangle.overlaps(circle))
+    if rectangle.contains(point):
+        print("Point is in rectangle")
+    else:
+        print("Point is not in rectangle")
     main_frame.show()
 
+    #draw circle
+    circle = Circle(Point(400, 300),main_frame, 50)
+    circle.set_colour((0, 0, 255))
+    # circle.draw(main_frame())
+    #check if circle intersects with rectangle
+    if circle.overlaps(rectangle):
+        print("Circle overlaps with rectangle")
+    else:
+        print("Circle does not overlap with rectangle")
+
+  
+
+    main_frame.show()
+    #remove rectangle
+    # rectangle.remove_from_frame()
+    # print("Rectangle deleted")
+
+
+
     #draw triangle
-    triangle = Triangle(Point(200, 200), Point(250, 250), Point(300, 200))
+    triangle = Triangle(Point(200, 200), Point(250, 250), Point(300, 200),main_frame)
     triangle.set_colour((255, 0, 0))
-    triangle.draw(main_frame())
+    main_frame.show()
     #draw the center of the triangle
-    triangle.center.draw_point(main_frame())
+    triangle.center.draw_point(main_frame)
     #check if triangle intersects with rectangle
-    print(rectangle.overlaps(triangle))
+    rectangle.update(Point(50, 200), 50, 100, 45)
+    main_frame.show()
+    if rectangle.overlaps(triangle):
+        print("Triangle overlaps with rectangle")
+    else:
+        print("Triangle does not overlap with rectangle")
+
+    #check if point is in circle
+    point = Point(400, 300)
+    if circle.contains(point):
+        print("Point is in circle")
+    else:
+        print("Point is not in circle")
+
+    #remoe rectangle
+    rectangle.remove_from_frame()
     main_frame.show()
 
 

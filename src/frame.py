@@ -22,6 +22,8 @@ class Frame():
         The name of the window where the frame will be displayed.
     frame : np.ndarray
         The image data for the frame.
+    list_of_shapes : list
+        A list of shapes to be displayed
 
     Methods
     -------
@@ -29,6 +31,14 @@ class Frame():
         Returns the frame image data.
     show():
         Displays the frame in a window.
+    add_shape(shape):
+        Adds a shape to the frame.
+    draw_shapes():
+        Draws all the shapes on the frame.
+    remove_shape(shape):
+        Removes a shape from the frame.
+    refresh():
+        Refreshes the frame by clearing the image data and redrawing all shapes.
     __del__():
         Cleans up the window when the object is destroyed.
     """
@@ -37,6 +47,7 @@ class Frame():
         self.height = height
         self.window_name = window_name
         self.frame = np.zeros((height, width, 3), np.uint8)
+        self.list_of_shapes = []
         cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
 
 
@@ -54,16 +65,54 @@ class Frame():
 
     def show(self):
         """
-        Displays the frame in a window.
+        Refreshed and displays the frame in a window.
         """
+        self.refresh()
         cv2.imshow(self.window_name, self.frame)
         cv2.waitKey(0)
         # cv2.destroyAllWindows()
+
+    def add_shape(self, shape):
+        """
+        Adds a shape to the frame.
+
+        Parameters
+        ----------
+        shape : Shape
+            The shape to add to the frame.
+        """
+        self.list_of_shapes.append(shape)
+
+    def draw_shapes(self):
+        """
+        Draws all the shapes on the frame.
+        """
+        for shape in self.list_of_shapes:
+            shape.draw(self.frame)
+    def remove_shape(self, shape):
+        """
+        Removes a shape from the frame.
+
+        Parameters
+        ----------
+        shape : Shape
+            The shape to remove from the frame.
+        """
+        self.list_of_shapes.remove(shape)
+
+    def refresh(self):
+        """
+        Refreshes the frame by clearing the image data and redrawing all shapes.
+        """
+        self.frame = np.zeros((self.height, self.width, 3), np.uint8)
+        self.draw_shapes()
+
     def __del__(self):
         """
         Cleans up the window when the object is destroyed.
         """
         # cv2.destroyAllWindows()
+        print("Destroying window")
         cv2.destroyWindow(self.window_name)
 
 

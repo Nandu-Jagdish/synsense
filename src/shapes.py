@@ -32,7 +32,7 @@ class Point():
         """
         Draws the point on a frame. Default radius is 1 and colour is white.
         """
-        Circle(self, radius, colour).draw(frame)
+        Circle(self,frame, radius, colour)
 
 class Shape():
     """
@@ -44,6 +44,8 @@ class Shape():
         The center of the shape.
     colour : tuple
         The colour of the shape. In BGR format.(opencv uses BGR format)
+    frame : Frame
+        The frame to draw the shape on.
     Methods
     -------
     set_colour(colour):
@@ -61,12 +63,37 @@ class Shape():
 
     
     """
-    def __init__(self, points, colour=(255, 255, 255)):
+    def __init__(self, points,frame, colour=(255, 255, 255)):
         """
         Initializes the shape with a center and colour."""
 
         self.center = points
         self.colour = colour
+        self.frame = frame
+        self.add_to_frame()
+
+    # def __del__(self):
+    #     """
+    #     Removes the shape from the frame when the object is destroyed.
+    #     """
+    #     # print(f"{self.__class__.__name__} object is being deleted")
+    #     self.frame.remove_shape(self)
+
+    def remove_from_frame(self):
+        """
+        Removes the shape from the frame.
+
+        NOTE: This method exists because the __del__ method is not called when the object is deleted from a list for some wierd reason.
+        """
+        self.frame.remove_shape(self)
+        del self
+
+
+    def add_to_frame(self):
+        """
+        Adds the shape to the frame.
+        """
+        self.frame.add_shape(self)
 
     def set_colour(self, colour):
         """
@@ -142,6 +169,8 @@ class Circle(Shape):
         The center of the circle.
     radius : int
         The radius of the circle.
+    frame : Frame
+        The frame to draw the circle on.
     colour : tuple
         The colour of the circle. In BGR format.
 
@@ -159,7 +188,7 @@ class Circle(Shape):
     
 
         """
-    def __init__(self, center, radius, colour=(255, 255, 255)):
+    def __init__(self, center,frame, radius, colour=(255, 255, 255)):
         """
         Initializes the circle with a center, radius, and colour.
         
@@ -169,12 +198,15 @@ class Circle(Shape):
             The center of the circle.
         radius : int
             The radius of the circle.
+        frame : Frame
+            The frame to draw the circle on.
         colour : tuple
             The colour of the circle in BGR format.
 
             """
-        super().__init__(center, colour)
+        super().__init__(center,frame, colour)
         self.radius = radius
+
 
     # def get_points(self):
     #     return cv2.circle(self.center, self.radius)
@@ -208,7 +240,7 @@ class Circle(Shape):
         # Approximate the circle with a polygon for intersection tests
         num_points = 100
         angles = np.linspace(0, 2 * np.pi, num_points)
-        points = np.array([(self.center.x + self.radius * np.cos(angle), self.center.y + self.radius * np.sin(angle)) for angle in angles])
+        points = np.array([(self.center.x + self.radius * np.cos(angle), self.center.y + self.radius * np.sin(angle)) for angle in angles], dtype=np.int32)
         return points
 
     def overlaps(self, other_shape):
@@ -274,7 +306,7 @@ class Rectangle(Shape):
     draw(frame):
         Draws the rectangle on the given frame.
     """
-    def __init__(self, center,height, width,rotation_degrees=0):
+    def __init__(self, center,height, width,frame,rotation_degrees=0):
 
 
         """
@@ -291,10 +323,12 @@ class Rectangle(Shape):
         rotation_degrees : float, optional
             The rotation of the shape in degrees. Defaults to 0.
         """
-        super().__init__(center)
+        super().__init__(center,frame)
         self.height = height
         self.width = width
         self.rotation_degrees = rotation_degrees
+    
+
 
     def get_points(self):
         """
@@ -365,6 +399,8 @@ class Triangle(Shape):
         The second point of the triangle.
     point3 : Point
         The third point of the triangle.
+    frame : Frame
+        The frame to draw the triangle on.
 
     Methods
     -------
@@ -376,7 +412,7 @@ class Triangle(Shape):
         Draws the triangle on a frame.
 
     """
-    def __init__(self, point1, point2, point3):
+    def __init__(self, point1, point2, point3,frame):
         """
         Initializes the triangle with three points.
 
@@ -395,7 +431,7 @@ class Triangle(Shape):
         self.point2 = point2
         self.point3 = point3 
         centroid = self.calculate_centroid()
-        super().__init__(centroid)
+        super().__init__(centroid,frame)
 
     def calculate_centroid(self):
         """
@@ -412,6 +448,23 @@ class Triangle(Shape):
         centroid_x = (self.point1.x + self.point2.x + self.point3.x) / 3
         centroid_y = (self.point1.y + self.point2.y + self.point3.y) / 3
         return Point(centroid_x, centroid_y)
+    
+    def update(self, point1, point2, point3):
+        """
+        Updates the points of the triangle.
+
+        Parameters
+        ----------
+        point1 : Point
+
+        point2 : Point
+
+        point3 : Point
+
+        """
+        self.point1 = point1
+        self.point2 = point2
+        self.point3 = point3
 
     def get_points(self):
         """
