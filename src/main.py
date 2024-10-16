@@ -28,6 +28,7 @@ from shapes import Point, Shape, Circle, Rectangle, Triangle
 
 
 def main():
+    #generate an empty frame
     main_frame = Frame(800, 600)
     rectangle = Rectangle(Point(400, 300), 100, 200,main_frame)
     rectangle.set_colour((0, 255, 0))
@@ -59,7 +60,7 @@ def main():
     triangle = Triangle(Point(200, 200), Point(250, 250), Point(300, 200),main_frame)
     triangle.set_colour((255, 0, 0))
     main_frame.show()
-    #draw the center of the triangle
+    #draw the center of the triangle 
     triangle.center.draw_point(main_frame)
     #check if triangle intersects with rectangle
     rectangle.update(Point(50, 200), 50, 100, 45)

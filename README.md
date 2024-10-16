@@ -37,7 +37,6 @@ def main():
     while True:
         delta_degrees =delta_degrees + 30
         main_frame.show()
-        # time.sleep(0.1)  # Refresh every 0.1 seconds
         rectangle.update(Point(400, 300), 100, 200, delta_degrees)  # Rotate 30 degrees on every refresh
         #exit loop after 360 degrees
         if delta_degrees == 360:
@@ -91,6 +90,7 @@ Has 3 derived classes
 ```sh
 python src/main.py
 ```
+When the window is displayed press any key to refresh the frame
 
 ## Testing
 

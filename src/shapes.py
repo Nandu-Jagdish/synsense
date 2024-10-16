@@ -30,7 +30,7 @@ class Point():
         return f"Point({self.x}, {self.y})"
     def draw_point(self, frame, radius=1, colour=(255,255,255)):
         """
-        Draws the point on a frame. Default radius is 1 and colour is white.
+        Draws the point on a frame. Default radius is 1 and colour is white. Can be usefull when debuging.
         """
         Circle(self,frame, radius, colour)
 
@@ -106,9 +106,6 @@ class Shape():
         """
         self.colour = colour
 
-    # def move(self, dx, dy): #TODO Remove or re implement
-    #     self.center.x += dx
-    #     self.center.y += dy
 
     def get_points(self):
         """
@@ -279,7 +276,7 @@ class Circle(Shape):
 
         Parameters
         ----------
-        frame : np.ndarray          #TODO Make this a Frame object
+        frame : np.ndarray         
              The frame to draw the circle on.  
         """
         cv2.circle(frame, (self.center.x, self.center.y), self.radius, self.colour, -1)
@@ -379,7 +376,7 @@ class Rectangle(Shape):
 
         Parameters:
         -----------
-        frame (numpy.ndarray): The frame on which to draw the rectangle.    #TODO Make this a Frame object
+        frame (numpy.ndarray): The frame on which to draw the rectangle.   
             
             """
         rect = ((self.center.x, self.center.y), (self.width, self.height), self.rotation_degrees)
@@ -477,7 +474,7 @@ class Triangle(Shape):
         np.ndarray
             The points of the triangle.
         """
-        return np.array([[self.point1.x, self.point1.y], [self.point2.x, self.point2.y], [self.point3.x, self.point3.y]]) #TODO
+        return np.array([[self.point1.x, self.point1.y], [self.point2.x, self.point2.y], [self.point3.x, self.point3.y]]) 
 
     def draw(self, frame):
         """
