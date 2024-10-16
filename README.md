@@ -46,6 +46,8 @@ if __name__ == "__main__":
     main()
 ```
 
+NOTE: The main.py is just an example of how to use the classes. It does not have any user interaction or main loop and will render the frame when pressing any key.
+
 ## How the pipeline works
 
 1. Create a frame with a specified width and height.

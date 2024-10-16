@@ -21,7 +21,7 @@ email: nandu.workmail@gmail.com
 
 import cv2
 import numpy as np
-import gc
+
 
 from frame import Frame
 from shapes import Point, Shape, Circle, Rectangle, Triangle
@@ -46,21 +46,14 @@ def main():
     #draw circle
     circle = Circle(Point(400, 300),main_frame, 50)
     circle.set_colour((0, 0, 255))
-    # circle.draw(main_frame())
+
     #check if circle intersects with rectangle
     if circle.overlaps(rectangle):
         print("Circle overlaps with rectangle")
     else:
         print("Circle does not overlap with rectangle")
 
-  
-
     main_frame.show()
-    #remove rectangle
-    # rectangle.remove_from_frame()
-    # print("Rectangle deleted")
-
-
 
     #draw triangle
     triangle = Triangle(Point(200, 200), Point(250, 250), Point(300, 200),main_frame)
@@ -76,6 +69,11 @@ def main():
     else:
         print("Triangle does not overlap with rectangle")
 
+        # remove rectangle
+    rectangle.remove_from_frame()
+    print("Rectangle deleted")
+    main_frame.show()
+
     #check if point is in circle
     point = Point(400, 300)
     if circle.contains(point):
@@ -83,8 +81,7 @@ def main():
     else:
         print("Point is not in circle")
 
-    #remoe rectangle
-    rectangle.remove_from_frame()
+
     main_frame.show()
 
 
