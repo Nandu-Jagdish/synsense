@@ -57,6 +57,35 @@ NOTE: The main.py is just an example of how to use the classes. It does not have
 5. Call the `update()` method of the shape to update its position, size, and rotation. The frame will automatically update the shape on the next call to `show()`.
 6. Pressing the 'q' key will *NOT* close the window. But will continue to run the next line in code. This is different from typical OPENCV behaviour where pressing 'q' key will close the window.
 
+## Class Structure
+
+Has 3 base classes
+1. Frame
+2. Shape
+3. Point
+
+Has 3 derived classes
+1. Rectangle
+2. Circle
+3. Triangle
+
+1. Frame class
+- Is the primary container for all shapes and includes functions to display all shapes in the frame.
+- Keeps track of all shapes in the frame and displays them using OpenCV.
+
+
+2. Shape class
+- Is the  base for all shapes and includes functions to create and add to the frame.
+- Has functions to check if a point is inside the shape and if two shapes overlap.
+
+3. Point class
+- Represents a point in 2D space . NOTE: I wouldnt have personally used this class but it is created for the sake of OO design.
+
+3. Inherted Classes
+- Each inherited classes have methods to update the shape and display it and also extend or overide the base class methods.
+
+![UML Diagram](uml.drawio.png)
+
 ## Runing the code
 
 ```sh
